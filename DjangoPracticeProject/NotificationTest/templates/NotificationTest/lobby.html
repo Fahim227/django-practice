@@ -16,34 +16,72 @@
 
     <div id="messages"></div>
 
+    <div id="map" style="width: 320px; height: 480px;"></div>
+
+
     <script type="text/javascript">
+
+        var geocoder;
+        var map;
+        function initialize() {
+            geocoder = new google.maps.Geocoder();
+            var latlng = new google.maps.LatLng(-34.397, 150.644);
+            var mapOptions = {
+            zoom: 8,
+            center: latlng
+            }
+            map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        }
+
+        var lat = "";
+        var long = "";
+
+        const successCallback = (position) => {
+            lat = position['coords']['latitude'];
+            long = position['coords']['longitude'];
+            
+        };
+          
+          const errorCallback = (error) => {
+            console.log(error);
+        };
+
+        navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+        
         let url = `ws://${window.location.host}/ws/socket-server/`
         console.log(url);
         const chatSocket = new WebSocket(url)
 
-        // chatSocket.onmessage = function(e){
-        //     let data = JSON.parse(e.data)
-        //     console.log('Data:', data)
+        chatSocket.onmessage = function(e){
+            let data = JSON.parse(e.data)
+            console.log('Data:', data)
 
-        //     if(data.type === 'chat'){
-        //         let messages = document.getElementById('messages')
+            if(data.type === 'chat'){
+                let messages = document.getElementById('messages')
 
-        //         messages.insertAdjacentHTML('beforeend', `<div>
-        //                                 <p>${data.message}</p>
-        //                             </div>`)
-        //     }
-        // }
+                messages.insertAdjacentHTML('beforeend', `<div>
+                                        <p>${data.message}</p>
+                                    </div>`)
+            }
+        }
 
+    
         let form = document.getElementById('form')
         form.addEventListener('submit', (e)=> {
             e.preventDefault()
             let message = e.target.message.value 
             chatSocket.send(JSON.stringify({
-                'message':message
+                'message':message,
+                'latitude':lat,
+                'longitude' : long
+                
             }))
+            
             // form.reset()
         })
 
+        
+          
     </script>
 </body>
 </html>
