@@ -1,0 +1,1 @@
+from DjangoPracticeProject.celery import celery 

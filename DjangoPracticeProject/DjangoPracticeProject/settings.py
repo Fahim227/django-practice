@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'CacheImplementation',
     'NotificationTest'
 ]
 
@@ -53,6 +53,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # caching middleware 
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'DjangoPracticeProject.urls'
@@ -72,6 +76,20 @@ TEMPLATES = [
         },
     },
 ]
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://localhost:6379/0',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'TIMEOUT': 300,
+            'MAX_ENTRIES': 1000,
+        }
+    }
+}
+
+CELERY_BROKER_URL = 'redis://localhost:6379/1'
 
 # WSGI_APPLICATION = 'DjangoPracticeProject.wsgi.application'
 ASGI_APPLICATION = 'DjangoPracticeProject.asgi.application'
