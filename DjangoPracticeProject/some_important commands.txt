@@ -1,0 +1,7 @@
+Run Celery Beat:
+
+python -m celery -A DjangoPracticeProject beat
+
+Run Celery Workers:
+
+python -m celery -A DjangoPracticeProject worker -P gevent   [gevent==22.10.2]
