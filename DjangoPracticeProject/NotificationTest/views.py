@@ -12,7 +12,7 @@ import json
 def test(request):
    
     print("testing ===================>>>>>>>>> ")
-    result = notify_customer.delay()
+    # result = notify_customer.delay()
     # print(result.get())
     return HttpResponse(json.dumps({"message": "Hello, world!"}))
     

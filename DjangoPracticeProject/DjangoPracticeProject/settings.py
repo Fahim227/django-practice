@@ -77,26 +77,26 @@ TEMPLATES = [
     },
 ]
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://localhost:6379/0',
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            'TIMEOUT': 300,
-            'MAX_ENTRIES': 1000,
-        }
-    }
-}
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': 'redis://localhost:6379/0',
+#         'OPTIONS': {
+#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+#             'TIMEOUT': 300,
+#             'MAX_ENTRIES': 1000,
+#         }
+#     }
+# }
 
-CELERY_BROKER_URL = 'redis://localhost:6379/1'
-CELERY_BEAT_SCHEDULE = {
-    'send_email': {
-        'task' : 'NotificationTest.tasks.send_email',
-        'schedule': 5,
-        'args': ['islamfahim227@gmail.com']
-    }
-}
+# CELERY_BROKER_URL = 'redis://localhost:6379/1'
+# CELERY_BEAT_SCHEDULE = {
+#     'send_email': {
+#         'task' : 'NotificationTest.tasks.send_email',
+#         'schedule': 5,
+#         'args': ['islamfahim227@gmail.com']
+#     }
+# }
 
 # WSGI_APPLICATION = 'DjangoPracticeProject.wsgi.application'
 ASGI_APPLICATION = 'DjangoPracticeProject.asgi.application'

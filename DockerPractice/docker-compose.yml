@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+
+  # Redis Configuration
+  redis:
+    image: redis:alpine
+    container_name: redis
+
+  # Database Configuration
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: 'django-app-db'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+    volumes:
+      - ./data/mysql/db:/var/lib/mysql
+
+  # App Configuration
+  app:
+    build: .
+    volumes:
+      - .:/django
+    ports:
+      - 8650:8650
+    image: dockerapp:django
+    container_name: django_container
+    command: python manage.py runserver 0.0.0.0:8650
+    depends_on:
+      db:
+        condition: service_started
+  
+  # Celery Configuration
+  celery:
+    restart: always
+    build: 
+      context: . 
+    command: celery -A DjangoPractice worker -l DEBUG
+    volumes:
+      - .:/django
+    container_name: celery
+    depends_on:
+      db:
+        condition: service_started
+      redis:
+        condition: service_started
+      app:
+        condition: service_started
+ 
