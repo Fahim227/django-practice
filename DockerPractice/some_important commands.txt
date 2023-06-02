@@ -9,7 +9,7 @@ python -m celery -A DjangoPracticeProject worker -P gevent   [gevent==22.10.2]
 
 # Docker
 
-ToBuildImage: docker build --tag django-practice
+ToBuildImage: docker build --tag django-practice .
 
 ToBuildContainer: docker run -publish 8080:8080 django-practice
 
