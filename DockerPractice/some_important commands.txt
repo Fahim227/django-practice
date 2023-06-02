@@ -15,6 +15,9 @@ ToBuildContainer: docker run -publish 8080:8080 django-practice
 
 To Run Compose: docker-compose run --rm app
 
+To see all images: docker images
+To see all running containers: docker ps
+
 # Docker Compose
 
 To build the docker Compose file with docker File: docker-compose build
